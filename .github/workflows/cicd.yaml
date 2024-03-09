@@ -25,6 +25,9 @@ jobs:
       - test
     permissions:
       id-token: write
+    env:
+      POETRY_VERSION: "1.8.2"
+      PYTHON_VERSION: "3.11"
     steps:
       - name: get code
         uses: actions/checkout@v4
@@ -35,15 +38,15 @@ jobs:
         with:
           path: ~/.local
           # Invalidate the cache when this workflow file changes.
-          key: poetry-${{ runner.os }}-${{ inputs.poetry-version }}-${{ inputs.python-version }}
+          key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
       - name: install python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ inputs.python-version }}
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: install poetry
         uses: snok/install-poetry@v1
         with:
-          version: ${{ inputs.poetry-version }}
+          version: ${{ env.POETRY_VERSION }}
       - name: build
         run: poetry build
       - name: publish
