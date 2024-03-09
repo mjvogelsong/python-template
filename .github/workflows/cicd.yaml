@@ -3,26 +3,15 @@ name: cicd
 on:
   push:
 
-env:
-  PYTHON_VERSION: "3.11"
-  POETRY_VERSION: "1.8.2"
-  RUNS_ON: "ubuntu-22.04"
-
 jobs:
   # Check for linting errors.
   lint:
     uses: ./.github/workflows/python-make-target.yaml
     with:
       target: lint
-      python-version: ${{ env.PYTHON_VERSION }}
-      poetry-version: ${{ env.POETRY_VERSION }}
-      runs-on: ${{ env.RUNS_ON }}
 
   # Run the test suite.
   test:
     uses: ./.github/workflows/python-make-target.yaml
     with:
       target: test
-      python-version: ${{ env.PYTHON_VERSION }}
-      poetry-version: ${{ env.POETRY_VERSION }}
-      runs-on: ${{ env.RUNS_ON }}
