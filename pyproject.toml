@@ -2,7 +2,7 @@
 authors = ["Michael Vogelsong <4020875+mjvogelsong@users.noreply.github.com>"]
 description = "A template for python projects."
 license = "MIT"
-name = "package-name"
+name = "mjv-template"
 readme = "README.md"
 version = "0.1.0"
 

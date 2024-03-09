@@ -26,6 +26,9 @@ install:  ## Install the package from source
 test: install  ## Run the unit tests
 	poetry run pytest
 
+publish:  ## Publish the package to PyPI
+	poetry publish --build
+
 # Adjust which paths we lint
 LINT_PATHS="."
 

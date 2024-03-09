@@ -15,3 +15,13 @@ jobs:
     uses: ./.github/workflows/python-make-target.yaml
     with:
       target: test
+
+  # When a release is created on github (using the vX.Y.Z tag formatting), publish the package to PyPI.
+  publish-python-package:
+    # if: startsWith(github.ref, 'refs/tags/v')
+    needs:
+      - lint
+      - test
+    uses: ./.github/workflows/python-make-target.yaml
+    with:
+      target: publish
