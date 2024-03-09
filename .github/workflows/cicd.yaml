@@ -44,13 +44,6 @@ jobs:
         uses: snok/install-poetry@v1
         with:
           version: ${{ inputs.poetry-version }}
-      - name: cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: py-${{ inputs.target }}-${{ runner.os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            py-${{ inputs.target }}-${{ runner.os }}-${{ inputs.python-version }}
       - name: build
         run: poetry build
       - name: publish
