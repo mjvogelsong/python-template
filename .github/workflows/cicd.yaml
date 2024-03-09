@@ -28,9 +28,30 @@ jobs:
     steps:
       - name: get code
         uses: actions/checkout@v4
-      - name: build
-        uses: ./.github/workflows/python-make-target.yaml
+      # `poetry` is installed in ~/.local, so we cache it to speed up the action. Without the cache, it usually takes
+      # 15-20 seconds to install poetry. With the cache, it takes 1-3 seconds.
+      - name: cache poetry cli
+        uses: actions/cache@v4
         with:
-          target: build
+          path: ~/.local
+          # Invalidate the cache when this workflow file changes.
+          key: poetry-${{ runner.os }}-${{ inputs.poetry-version }}-${{ inputs.python-version }}
+      - name: install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
+      - name: install poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ inputs.poetry-version }}
+      - name: cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: py-${{ inputs.target }}-${{ runner.os }}-${{ inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            py-${{ inputs.target }}-${{ runner.os }}-${{ inputs.python-version }}
+      - name: build
+        run: poetry build
       - name: publish
         uses: pypa/gh-action-pypi-publish@release/v1
