@@ -26,6 +26,8 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - name: get code
+        uses: actions/checkout@v4
       - name: build
         uses: ./.github/workflows/python-make-target.yaml
         with:
