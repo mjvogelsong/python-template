@@ -13,6 +13,14 @@ jobs:
     steps:
       - name: get code
         uses: actions/checkout@v4
+      # `poetry` is installed in ~/.local, so we cache it to speed up the action. Without the cache, it usually takes
+      # 15-20 seconds to install poetry.
+      - name: cache poetry cli
+        uses: actions/cache@v4
+        with:
+          path: ~/.local
+          # Invalidate the cache when this workflow file changes.
+          key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
       - name: install python
         uses: actions/setup-python@v5
         with:
@@ -38,6 +46,14 @@ jobs:
     steps:
       - name: get code
         uses: actions/checkout@v4
+      # `poetry` is installed in ~/.local, so we cache it to speed up the action. Without the cache, it usually takes
+      # 15-20 seconds to install poetry.
+      - name: cache poetry cli
+        uses: actions/cache@v4
+        with:
+          path: ~/.local
+          # Invalidate the cache when this workflow file changes.
+          key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
       - name: install python
         uses: actions/setup-python@v5
         with:
@@ -56,3 +72,6 @@ jobs:
       - name: test
         run: |
           make test
+      - name: debug
+        run: |
+          ls ~/.local/
