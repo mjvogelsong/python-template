@@ -29,6 +29,9 @@ test: install  ## Run the unit tests
 build:  ## Build the package (e.g., for publishing to PyPI)
 	poetry build
 
+clean:  ## Clean up build artifacts
+	rm -rf dist
+
 # Adjust which paths we lint
 LINT_PATHS="."
 
