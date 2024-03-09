@@ -74,4 +74,4 @@ jobs:
           make test
       - name: debug
         run: |
-          ls ~/.local/
+          ls ~/.local/bin/
