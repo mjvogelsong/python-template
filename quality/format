@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Formats the codebase.
+# Dependencies:
+# - poetry install --only lint
+# Usage:
+# $ ./format .
+
+if [ $# -eq 0 ]; then
+  echo "Usage: $0 TARGET_PATHS"
+  exit 1
+fi
+
+# Args
+TARGET_PATHS=$@
+
+echo "Formatting paths: '$TARGET_PATHS' ..."
+echo "Running toml-sort formatter ..."
+poetry run toml-sort \
+  --no-sort-tables \
+  --trailing-comma-inline-array \
+  --spaces-indent-inline-array 4 \
+  -i pyproject.toml
+
+# https://beta.ruff.rs/docs/
+echo "Running ruff lint fixer ..."
+poetry run ruff --fix $TARGET_PATHS
+
+echo "Running ruff formatter ..."
+poetry run ruff format $TARGET_PATHS
+
+echo "✅ Done!"
