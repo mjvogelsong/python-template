@@ -23,17 +23,14 @@ help: ## Print a description of all targets
 install:  ## Install the package from source
 	poetry install
 
-install-lint:  ## Install the package from source with linting dependencies
-	poetry install --with lint
-
-install-test:
-	poetry install --with test 
-
-test: install-test  ## Run the unit tests
+test: install  ## Run the unit tests
 	poetry run pytest
 
 # Adjust which paths we lint
 LINT_PATHS="."
+
+install-lint:  ## Install the package from source with linting dependencies
+	poetry install --only lint
 
 lint: install-lint  ## Run linter to check formatting and style
 	./quality/lint ${LINT_PATHS}

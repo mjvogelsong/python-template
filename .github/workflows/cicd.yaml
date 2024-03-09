@@ -1,0 +1,58 @@
+# CI/CD workflow for the project.
+name: cicd
+on:
+  push:
+
+env:
+  PYTHON_VERSION: "3.11"
+  POETRY_VERSION: "1.8.2"
+jobs:
+  # Run our linter on every push to the repository.
+  lint:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: get code
+        uses: actions/checkout@v4
+      - name: install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: install poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ env.POETRY_VERSION }}
+      - name: cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: py-lint-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            py-lint-${{ runner.os }}-${{ env.PYTHON_VERSION }}-
+      - name: lint
+        run: |
+          make lint
+
+  # Run unit tests on every push to the repository.
+  test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: get code
+        uses: actions/checkout@v4
+      - name: install python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      - name: install poetry
+        uses: snok/install-poetry@v1
+        with:
+          version: ${{ env.POETRY_VERSION }}
+      - name: cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: .venv
+          key: py-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            py-${{ runner.os }}-${{ env.PYTHON_VERSION }}-
+      - name: test
+        run: |
+          make test
