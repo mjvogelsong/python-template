@@ -6,69 +6,23 @@ on:
 env:
   PYTHON_VERSION: "3.11"
   POETRY_VERSION: "1.8.2"
-jobs:
-  # Run our linter on every push to the repository.
-  lint:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: get code
-        uses: actions/checkout@v4
-      # `poetry` is installed in ~/.local, so we cache it to speed up the action. Without the cache, it usually takes
-      # 15-20 seconds to install poetry.
-      - name: cache poetry cli
-        uses: actions/cache@v4
-        with:
-          path: ~/.local
-          # Invalidate the cache when this workflow file changes.
-          key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
-      - name: install python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: install poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ env.POETRY_VERSION }}
-      - name: cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: py-lint-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            py-lint-${{ runner.os }}-${{ env.PYTHON_VERSION }}-
-      - name: lint
-        run: |
-          make lint
+  RUNS_ON: "ubuntu-22.04"
 
-  # Run unit tests on every push to the repository.
+jobs:
+  # Check for linting errors.
+  lint:
+    uses: ./.github/workflows/python-make-target.yaml
+    with:
+      target: lint
+      python-version: ${{ env.PYTHON_VERSION }}
+      poetry-version: ${{ env.POETRY_VERSION }}
+      runs-on: ${{ env.RUNS_ON }}
+
+  # Run the test suite.
   test:
-    runs-on: ubuntu-22.04
-    steps:
-      - name: get code
-        uses: actions/checkout@v4
-      # `poetry` is installed in ~/.local, so we cache it to speed up the action. Without the cache, it usually takes
-      # 15-20 seconds to install poetry.
-      - name: cache poetry cli
-        uses: actions/cache@v4
-        with:
-          path: ~/.local
-          # Invalidate the cache when this workflow file changes.
-          key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
-      - name: install python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ env.PYTHON_VERSION }}
-      - name: install poetry
-        uses: snok/install-poetry@v1
-        with:
-          version: ${{ env.POETRY_VERSION }}
-      - name: cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: py-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
-          restore-keys: |
-            py-${{ runner.os }}-${{ env.PYTHON_VERSION }}-
-      - name: test
-        run: |
-          make test
+    uses: ./.github/workflows/python-make-target.yaml
+    with:
+      target: test
+      python-version: ${{ env.PYTHON_VERSION }}
+      poetry-version: ${{ env.POETRY_VERSION }}
+      runs-on: ${{ env.RUNS_ON }}
