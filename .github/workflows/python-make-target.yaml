@@ -34,22 +34,22 @@ jobs:
         with:
           path: ~/.local
           # Invalidate the cache when this workflow file changes.
-          key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
+          key: poetry-${{ runner.os }}-${{ github.event.inputs.poetry-version }}-${{ github.event.inputs.python-version }}
       - name: install python
         uses: actions/setup-python@v5
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
+          python-version: ${{ github.event.inputs.python-version }}
       - name: install poetry
         uses: snok/install-poetry@v1
         with:
-          version: ${{ env.POETRY_VERSION }}
+          version: ${{ github.event.inputs.poetry-version }}
       - name: cache dependencies
         uses: actions/cache@v4
         with:
           path: .venv
-          key: py-${{ github.event.inputs.target }}-${{ runner.os }}-${{ env.PYTHON_VERSION }}-${{ hashFiles('**/poetry.lock') }}
+          key: py-${{ github.event.inputs.target }}-${{ runner.os }}-${{ github.event.inputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
           restore-keys: |
-            py-${{ github.event.inputs.target }}-${{ runner.os }}-${{ env.PYTHON_VERSION }}
+            py-${{ github.event.inputs.target }}-${{ runner.os }}-${{ github.event.inputs.python-version }}
       - name: ${{ github.event.inputs.target }}
         run: |
           make ${{ github.event.inputs.target }}
