@@ -18,7 +18,7 @@ jobs:
       - name: cache poetry cli
         uses: actions/cache@v4
         with:
-          path: ~/.local/bin/poetry
+          path: ~/.local
           # Invalidate the cache when this workflow file changes.
           key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
       - name: install python
@@ -51,7 +51,7 @@ jobs:
       - name: cache poetry cli
         uses: actions/cache@v4
         with:
-          path: ~/.local/bin/poetry
+          path: ~/.local
           # Invalidate the cache when this workflow file changes.
           key: poetry-${{ runner.os }}-${{ env.POETRY_VERSION }}-${{ env.PYTHON_VERSION }}
       - name: install python
@@ -72,6 +72,3 @@ jobs:
       - name: test
         run: |
           make test
-      - name: debug
-        run: |
-          ls ~/.local/bin/
