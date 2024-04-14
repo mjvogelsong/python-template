@@ -57,7 +57,7 @@ I prefer [Cursor](https://cursor.sh/), which is a VSCode-fork with better AI-ass
 
 ##### General
 
-- GitHub Copilot - AI-assisted coding (although I use Cursor's copilot++)
+- Cursor Copilot++ - AI-assisted coding (or Github Copilot for VSCode)
 - YAML - YAML configs
 - Markdown All in One - Markdown previews
 - GitLens - see git blame and history
