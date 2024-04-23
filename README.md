@@ -30,6 +30,8 @@ make help
 Poetry is used to manage python packages, and we include `poetry.lock` in the repository for reproducible dev
 environments.
 
+#### Recommended Libraries
+
 - pydantic - nicely typed data classes
 - typer - easy CLIs
 - pytest - testing
@@ -64,3 +66,11 @@ I prefer [Cursor](https://cursor.sh/), which is a VSCode-fork with better AI-ass
 - Code Spell Checker - spell checking
 - Prettier - code formatting
 - Shell-format - shell formatting
+
+### Adjusting this template
+
+1. Replace "mjv-template" with the name of your project.
+1. Replace "python-template" with the name of your repo.
+1. Replace "mjv_template" with the name of your module.
+1. Remove this section.
+1. Edit this README to have info on your project.

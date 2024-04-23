@@ -20,6 +20,7 @@
   },
   "ruff.lint.args": ["--config", "pyproject.toml"],
   "ruff.fixAll": true,
+  "mypy-type-checker.path": ["./.venv/bin/mypy"],
   "autoDocstring.docstringFormat": "sphinx-notypes",
   // Shell
   "[shellscript]": {
